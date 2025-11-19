@@ -1,4 +1,4 @@
-import java.util.*;
+// Graphs - Basic and Types of Graph
 
 /* 1) Graph is a non-linear Data Structure which is made up of nodes/vertices which are connected to each other using
  *  edges, they do not follow any hiearchical structure like trees so there is no root-node/parent-child type of relationship
@@ -41,6 +41,8 @@ import java.util.*;
  *
  *
  * */
+
+import java.util.*;
 
 
 class AdjacencyListGraph<T>{
