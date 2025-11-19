@@ -1,9 +1,10 @@
+package javaCode;
 // Graphs - Basic and Types of Graph
 
 /* 1) Graph is a non-linear Data Structure which is made up of nodes/vertices which are connected to each other using
- *  edges, they do not follow any hiearchical structure like trees so there is no root-node/parent-child type of relationship
+ *  edges, they do not follow any hierarchical structure like trees so there is no root-node/parent-child type of relationship
  *  2) The nodes/vertices are used to store data and the edges between them are used to determine the relationships between each other
- *  3) We have different types of graphs based on the type of edges (undirected/directed edge) or based on whether there is a cylce in the graph
+ *  3) We have different types of graphs based on the type of edges (undirected/directed edge) or based on whether there is a cycle in the graph
  *  (cyclic/acyclic) or based on whether the edges have a weight or not(weighted/unweighted)
  *  4) Degree of a node/vertex - the no.of edges which are connected to a node is called its degree
  *    => degree [for a directed graph node] = outdegree(no of edges going out from a node)+indegree(no.of edges going into a node)
@@ -13,8 +14,8 @@
  * two nodes of a graph hence total degree is 2*n where n is the no.of edges
  *
  * 5) Graphs can be represented in 2 major ways using an adjacency list representation or using an adjacecny matrix representation
- *   a) Adjacency List - In this representation each vertex strores the list of all the vertices which are directly connected to it.
- *       Space complexity - O(V+E), V for all vertices since each vertex inturn stores the corresponsing node of its edges
+ *   a) Adjacency List - In this representation each vertex stores the list of all the vertices which are directly connected to it.
+ *       Space complexity - O(V+E), V for all vertices since each vertex inturn stores the corresponding node of its edges
  *                          but in total we store E (no of edges) for directed and 2E ~ E for undirected graphs
  *
  *
@@ -45,6 +46,9 @@
 import java.util.*;
 
 
+/* For Adjacency List we can also use ArrayList<ArrayList<>> but it is effective for integers only since we need indexes,
+Because of generic type I used a Map<Type,List<Type>> to model the adjacency list making it more simple
+*/
 class AdjacencyListGraph<T>{
     private Map<T,List<T>> adjL;
 
@@ -71,6 +75,10 @@ class AdjacencyListGraph<T>{
 
     public List<T> getNeighbors(T x){
         return adjL.get(x);
+    }
+
+    public Map<T,List<T>> getAdjL(){
+        return adjL;
     }
 
     public void printGraph(){
