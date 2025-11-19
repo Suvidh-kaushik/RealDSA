@@ -1,0 +1,11 @@
+# .gitignore (Java + IntelliJ)
+*.class
+*.log
+out/
+target/
+bin/
+.idea/
+*.iml
+.gradle/
+build/
+.DS_Store
