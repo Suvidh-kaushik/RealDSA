@@ -8,4 +8,5 @@ Graphs/javaCode/.idea/
 *.iml
 .gradle/
 build/
+.idea/
 .DS_Store
