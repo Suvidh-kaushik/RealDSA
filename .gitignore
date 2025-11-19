@@ -4,7 +4,7 @@
 out/
 target/
 bin/
-.idea/
+Graphs/javaCode/.idea/
 *.iml
 .gradle/
 build/
