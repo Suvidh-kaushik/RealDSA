@@ -1,7 +1,7 @@
 package javaCode;
 // Graphs - Basic and Types of Graph
 
-/* 1) Graph is a non-linear Data Structure which is made up of nodes/vertices which are connected to each other using
+/*  1) Graph is a non-linear Data Structure which is made up of nodes/vertices which are connected to each other using
  *  edges, they do not follow any hierarchical structure like trees so there is no root-node/parent-child type of relationship
  *  2) The nodes/vertices are used to store data and the edges between them are used to determine the relationships between each other
  *  3) We have different types of graphs based on the type of edges (undirected/directed edge) or based on whether there is a cycle in the graph
