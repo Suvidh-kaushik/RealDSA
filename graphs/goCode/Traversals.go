@@ -15,11 +15,29 @@ func BFS(g Graph,startNode int){
 		neighbors := g.getNeighbors(node)
         
 		for _,curr:= range neighbors{
-            if !vis[curr]{
-			  vis[curr] = true
-			  queue.enqueue(curr)
+            if !vis[curr.node]{
+			  vis[curr.node] = true
+			  queue.enqueue(curr.node)
 			}
 		}
 	}
 	fmt.Println()
+}
+
+
+func DFS(g Graph,startNode int){
+	vis := make(map[int]bool)
+	fmt.Print("DFS --- ")
+	var recurse func(int)
+	recurse = func(node int){
+		vis[node]=true;
+		fmt.Print(node,"  ");
+		for _,itr:= range g.getNeighbors(node){
+			if !vis[itr.node] {
+				recurse(itr.node)
+			}
+		}
+	}
+	recurse(startNode)
+	fmt.Println();
 }

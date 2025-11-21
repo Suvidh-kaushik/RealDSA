@@ -2,36 +2,39 @@ package main
 
 import "fmt"
 
-// Graph interface to be used for writing common functionality for adjacencyList and adjacencyMatrix liek BFS/DFS
-type Graph interface{
-	addUndirectedEdge(u,v int)
-	addDirectedEdge(U,V int)
-	getNeighbors(u int) []int
-	printGraph()
+type Edge struct{
+	node int
+	wt int
 }
 
-
-// adjacency List represntation of graph
+// Graph interface to be used for writing common functionality for adjacencyList and adjacencyMatrix liek BFS/DFS
+type Graph interface{
+	addUndirectedEdge(u,v,wt int)
+	addDirectedEdge(u,v,wt int)
+	getNeighbors(u int) []Edge
+	printGraph()
+}
+// adjacency List representation of graph
 
 type adjLGraph struct{
-    adjL [][]int
+    adjL map[int][]Edge
 }
 
 func intializeAdjLGraph(size int) *adjLGraph{
-	return &adjLGraph{adjL: make([][]int,size)}
+	return &adjLGraph{adjL: make(map[int][]Edge,size)}
 }
 
 
-func (g *adjLGraph) addUndirectedEdge (u,v int){
-   g.adjL[u] = append(g.adjL[u],v);
-   g.adjL[v] = append(g.adjL[v],u);
+func (g *adjLGraph) addUndirectedEdge (u,v,wt int){
+   g.adjL[u] = append(g.adjL[u],Edge{v,wt});
+   g.adjL[v] = append(g.adjL[v],Edge{u,wt});
 }
 
-func (g *adjLGraph) addDirectedEdge (u,v int){
-	g.adjL[u] = append(g.adjL[u],v);
+func (g *adjLGraph) addDirectedEdge (u,v,wt int){
+	g.adjL[u] = append(g.adjL[u],Edge{v,wt});
 }
 
-func (g adjLGraph) printGraph(){
+func (g *adjLGraph) printGraph(){
 	fmt.Println("Adjacency List:")
 	for i := range g.adjL {
         fmt.Println(i,"--->",g.adjL[i])
@@ -39,7 +42,7 @@ func (g adjLGraph) printGraph(){
 	fmt.Println()
 }
 
-func (g *adjLGraph) getNeighbors(u int) []int{
+func (g *adjLGraph) getNeighbors(u int) []Edge{
      return g.adjL[u];
 }
 
@@ -66,13 +69,13 @@ func intializeAdjMGraph(size int) *adjMGraph{
    }
 }
 
-func (g *adjMGraph) addUndirectedEdge(u,v int){
-	g.adjM[u][v] = 1;
-	g.adjM[v][u] = 1;
+func (g *adjMGraph) addUndirectedEdge(u,v,wt int){
+	g.adjM[u][v] = wt;
+	g.adjM[v][u] = wt;
 }
 
-func (g *adjMGraph) addDirectedEdge(u,v int){
-	g.adjM[u][v] = 1;
+func (g *adjMGraph) addDirectedEdge(u,v,wt int){
+	g.adjM[u][v] = wt;
 }
 
 func (g adjMGraph) printGraph(){
@@ -86,11 +89,11 @@ func (g adjMGraph) printGraph(){
 	fmt.Println()
 }
 
-func (g adjMGraph) getNeighbors(u int)[] int{
-	var result []int;
+func (g adjMGraph) getNeighbors(u int)[] Edge{
+	var result []Edge;
 	for i:=0;i<g.size;i++{
-		if(g.adjM[u][i]==1){
-			result=append(result,i);
+		if(g.adjM[u][i]!=0){
+			result=append(result,Edge{i,g.adjM[u][i]});
 		}
 	}
 	return result;
