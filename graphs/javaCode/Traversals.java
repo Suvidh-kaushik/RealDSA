@@ -36,11 +36,11 @@ package javaCode;
 import java.util.*;
 
 class BFS<T>{
-    private Map<T,List<T>> adjL;
+    private Map<T,List<Pair<T,Integer>>> adjL;
     private Map<T,Boolean> vis;
     private T startNode;
 
-    BFS(T sN,Map<T,List<T>>adjL){
+    BFS(T sN,Map<T,List<Pair<T,Integer>>>adjL){
         this.adjL = adjL;
         this.vis = new HashMap<>();
         this.startNode = sN;
@@ -64,10 +64,10 @@ class BFS<T>{
          while(!q.isEmpty()){
              T curr = q.poll();
              System.out.print(curr+"  ");
-             for(T itr:adjL.get(curr)){
-                 if(!checkVisited(itr)){
-                     markVisited(itr);
-                     q.add(itr);
+             for(Pair<T,Integer> itr:adjL.get(curr)){
+                 if(!checkVisited(itr.first)){
+                     markVisited(itr.first);
+                     q.add(itr.first);
                  }
              }
          }
@@ -77,11 +77,11 @@ class BFS<T>{
 
 
 class DFS<T>{
-    private Map<T,List<T>> adjL;
+    private Map<T,List<Pair<T,Integer>>> adjL;
     private Map<T,Boolean> vis;
     private T startNode;
 
-    DFS(T sN,Map<T,List<T>>adjL){
+    DFS(T sN,Map<T,List<Pair<T,Integer>>>adjL){
         this.startNode = sN;
         vis = new HashMap<>();
         this.adjL = adjL;
@@ -98,9 +98,9 @@ class DFS<T>{
     public void recurse(T N){
        markVisited(N);
        System.out.print(N+"  ");
-       for(T itr:adjL.get(N)){
-           if(!checkVisited(itr)){
-               recurse(itr);
+       for(Pair<T,Integer> itr:adjL.get(N)){
+           if(!checkVisited(itr.first)){
+               recurse(itr.first);
            }
        }
     }
@@ -115,21 +115,21 @@ class DFS<T>{
 public class Traversals {
     public static void main(String [] args){
         AdjacencyListGraph<Integer> graph = new AdjacencyListGraph<>();
-        graph.addUndirectedEdge(1,2);
-        graph.addUndirectedEdge(1,3);
-        graph.addUndirectedEdge(2,4);
-        graph.addUndirectedEdge(2,5);
-        graph.addUndirectedEdge(3,4);
+        graph.addUndirectedEdge(1,2,4);
+        graph.addUndirectedEdge(1,3,5);
+        graph.addUndirectedEdge(2,4,5);
+        graph.addUndirectedEdge(2,5,6);
+        graph.addUndirectedEdge(3,4,7);
 
         graph.printGraph();
 
         BFS<Integer> bfs_traversal = new BFS<>(1,graph.getAdjL());
         DFS<Integer> dfs_traversal = new DFS<>(1,graph.getAdjL());
 
-        System.out.print("BFS-->");
+        System.out.print("BFS--> ");
         bfs_traversal.printBFS();
 
-        System.out.print("DFS-->");
+        System.out.print("DFS--> ");
         dfs_traversal.printDFS();
     }
 }
