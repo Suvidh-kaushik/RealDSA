@@ -20,7 +20,7 @@ type adjLGraph struct{
     adjL map[int][]Edge
 }
 
-func intializeAdjLGraph(size int) *adjLGraph{
+func intializeAdjLGraph(size int) Graph{
 	return &adjLGraph{adjL: make(map[int][]Edge,size)}
 }
 
@@ -56,7 +56,7 @@ type adjMGraph struct{
 }
 
 
-func intializeAdjMGraph(size int) *adjMGraph{
+func intializeAdjMGraph(size int) Graph{
    adjM := make([][]int,size)
 
    for i:=range adjM{
