@@ -73,6 +73,8 @@ class BuildTreeHeap{
         }
     }
 
+
+    //heapifyUp is also called BubbleUP/siftUP
     private void heapifyUp(Node node){
         while((node.parent!=null) && (isMaxHeap?node.value>node.parent.value:node.value<node.parent.value)){
             int temp = node.value;
@@ -103,14 +105,15 @@ class BuildTreeHeap{
     }
 
 
+    // also called siftDOWN or bubbleDOWN
     private void heapifyDown(Node node){
         while(node!=null){
             Node largest = node;
-            if(node.left!=null && checkCondition(node,largest,true,isMaxHeap)){
+            if(node.left!=null && checkCondition(node,largest,true)){
                 largest = node.left;
             }
 
-            if(node.right!=null && checkCondition(node,largest,false,isMaxHeap)){
+            if(node.right!=null && checkCondition(node,largest,false)){
                 largest = node.right;
             }
 
@@ -124,7 +127,7 @@ class BuildTreeHeap{
         }
     }
 
-    private Boolean checkCondition(Node node,Node largest,Boolean isLeftNode,Boolean isMaxHeap){
+    private Boolean checkCondition(Node node,Node largest,Boolean isLeftNode){
         if (isMaxHeap) {
             return isLeftNode ? node.left.value > largest.value : node.right.value > largest.value;
         } else {
@@ -154,25 +157,121 @@ class BuildTreeHeap{
         else parent.right=null;
     }
 
-    public void printHeap(){
-        if(root==null){
+    public void printHeap() {
+        if (root == null) {
             System.out.println("Heap is empty");
             return;
         }
         Queue<Node> q = new LinkedList<>();
         q.add(root);
-        while(!q.isEmpty()){
+        while (!q.isEmpty()) {
             Node temp = q.poll();
-            System.out.print(temp.value+" ");
-            if(temp.left!=null) q.add(temp.left);
-            if(temp.right!=null) q.add(temp.right);
+            System.out.print(temp.value + " ");
+            if (temp.left != null) q.add(temp.left);
+            if (temp.right != null) q.add(temp.right);
         }
         System.out.println();
     }
 
-    
+    public void buildHeap(int[] arr){
+        for(int val:arr){
+            insert(val);
+        }
+        System.out.println();
+        printHeap();
+    }
 }
 
+class BuildArrayHeap{
+    ArrayList<Integer> heap;
+    Boolean isMaxHeap;
+    int size;
+
+    BuildArrayHeap(Boolean isMaxHeap){
+        this.heap = new ArrayList<>();
+        this.isMaxHeap = isMaxHeap;
+        this.size=0;
+    }
+
+    public void insert(int node){
+        heap.add(node);
+        heapifyUp(size);
+        size++;
+    }
+
+    private void heapifyUp(int ind){
+        while(ind>0){
+            int parent = (ind-1)/2;
+
+            boolean condition = isMaxHeap?heap.get(ind)>heap.get(parent):heap.get(ind)< heap.get(parent);
+
+            if(!condition){
+                break;
+            }
+
+            int temp = heap.get(ind);
+            heap.set(ind,heap.get(parent));
+            heap.set(parent,temp);
+            ind = parent;
+        }
+    }
+
+
+    public void delete() throws Exception{
+        if(size==0) throw new Exception("Heap is Empty");
+        int lastElement = heap.get(size);
+        heap.addFirst(lastElement);
+        heap.removeLast();
+        heapifyDown(0);
+        size--;
+    }
+
+    private void heapifyDown(int ind){
+       while(ind<size){
+           int left = 2*ind+1;
+           int right = 2*ind+2;
+           int target = ind;
+
+           if(isMaxHeap){
+              if(left<size && heap.get(left)>heap.get(target)) target = left;
+              if(right<size && heap.get(right)>heap.get(target)) target = right;
+           }
+           else{
+               if(left<size && heap.get(left)<heap.get(target)) target = left;
+               if(right<size && heap.get(right)<heap.get(target)) target = right;
+           }
+
+           if(target==ind) break;
+
+           int temp = heap.get(ind);
+           heap.set(ind,heap.get(target));
+           heap.set(target,temp);
+
+           ind = target;
+       }
+    }
+
+    public void buildHeap(int[] arr){
+        size = arr.length;
+        this.heap = new ArrayList<>();
+        for(int val:arr){
+            heap.add(val);
+        }
+        for(int i=size/2-1;i>=0;i--){
+            heapifyDown(i);
+        }
+        System.out.println();
+        printHeap();
+    }
+
+    public void printHeap(){
+        for(int val:heap){
+            System.out.print(val+" ");
+        }
+        System.out.println();
+    }
+
+}
 
 class Heaps{
     public static void main(String[] args) throws Exception{
@@ -202,5 +301,17 @@ class Heaps{
           hp2.printHeap();
           hp2.delete();
           hp2.printHeap();
+
+
+        System.out.println("---------------------------");
+
+        BuildTreeHeap hp3 = new BuildTreeHeap(false);
+        hp3.buildHeap(new int[]{30, 45, 76, 10, 9, 0});
+
+        System.out.println("---------------------------");
+
+        BuildArrayHeap hp4 = new BuildArrayHeap(true);
+        hp4.buildHeap(new int[]{30,60,50,40,10,70});
+
     }
 }
